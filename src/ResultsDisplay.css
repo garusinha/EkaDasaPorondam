@@ -80,11 +80,11 @@
   }
 
   .column-title {
-    font-size: 1em; /* Smaller column titles */
+    font-size: 0.8em; /* Smaller column titles */
   }
 
   .vastu-factor-label {
-    font-size: 1em; /* Smaller factor labels */
+    font-size: 0.7em; /* Smaller factor labels */
   }
 
   .overall-status-label {
