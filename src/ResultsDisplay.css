@@ -1,0 +1,68 @@
+/* src/ResultsDisplay.css */
+.results-panel {
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fdfdfd;
+  text-align: left;
+  min-height: 400px;
+}
+
+.result-label {
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+/* NEW STYLES FOR TWO COLUMNS */
+.vastu-factors-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Creates two equal columns */
+  gap: 20px; /* Space between the columns */
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.vastu-factors-column {
+  padding: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  background-color: #fcfcfc;
+}
+
+.column-title {
+  font-size: 1em;
+  font-weight: 600;
+  color: #4682b4; /* Steel Blue */
+  margin-bottom: 10px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+.vastu-factor-label {
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.overall-status-label {
+  font-family: "Georgia", serif;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 25px;
+  text-align: center;
+  padding-top: 15px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
