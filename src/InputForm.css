@@ -1,4 +1,4 @@
-/* src/InputForm.css */
+/* src/InputForm.css (Updated for specific mobile stacking) */
 .input-panel {
   border: 1px solid #dcdcdc;
   border-radius: 8px;
@@ -7,28 +7,29 @@
   text-align: left;
 }
 
+/* Default styles (for desktop and larger screens) */
 .input-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  gap: 15px; /* Space between label and input fields */
+  display: flex; /* Makes label and input-fields appear in one row */
+  align-items: center; /* Vertically align items */
+  margin-bottom: 15px; /* Space between length and width rows */
+  gap: 15px; /* Space between label and input-fields */
 }
 
 .input-group label {
   font-size: 1.1em;
   font-weight: 600;
   color: #34495e;
-  min-width: 60px; /* Align labels */
+  min-width: 60px; /* Keep this to help align labels across rows */
 }
 
 .input-fields {
-  display: flex;
-  gap: 10px;
+  display: flex; /* Makes feet and inches appear in one row */
+  gap: 10px; /* Space between feet and inches inputs */
   flex-grow: 1; /* Allow fields to take available space */
 }
 
 .styled-input-field {
-  flex: 1; /* Each input takes equal space */
+  flex: 1; /* Each input takes equal space within its group */
   padding: 10px 12px;
   font-size: 1em;
   border: 1px solid #b0b0b0;
@@ -40,4 +41,40 @@
 .styled-input-field:focus {
   border-color: #4682b4;
   box-shadow: 0 0 0 3px rgba(70, 130, 180, 0.2);
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* For screens smaller than 768px (tablets and mobile) */
+@media (max-width: 768px) {
+  .input-panel {
+    padding: 15px;
+  }
+
+  .input-group {
+    flex-direction: column; /* Stack label and input fields vertically */
+    align-items: flex-start; /* Align label to the left when stacked */
+    gap: 8px; /* Reduce gap between label and the input-fields container */
+  }
+
+  .input-group label {
+    min-width: unset; /* Remove fixed width for mobile */
+    margin-bottom: 0;
+  }
+
+  .input-fields {
+    flex-direction: column; /* <--- THIS IS THE KEY CHANGE: Stack Feet and Inches inputs vertically */
+    width: 100%; /* Make input-fields container take full width */
+    gap: 8px; /* Reduce gap between Feet/Inches inputs */
+  }
+
+  .styled-input-field {
+    padding: 8px 10px;
+    font-size: 0.95em;
+  }
+}
+
+/* For screens smaller than 480px (very small mobile devices) */
+@media (max-width: 480px) {
+  /* No additional changes needed here for .input-fields flex-direction, as it's already column from 768px */
 }

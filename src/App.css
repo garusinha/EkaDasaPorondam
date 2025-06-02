@@ -83,3 +83,53 @@ body {
 .contact-info p {
   margin: 4px 0;
 }
+
+/* --- Media Queries for Responsiveness --- */
+
+/* For screens smaller than 768px (tablets and mobile) */
+@media (max-width: 768px) {
+  body {
+    padding: 15px; /* Slightly less padding on body */
+  }
+
+  .app-container {
+    padding: 20px; /* Reduce container padding */
+    border-radius: 8px; /* Slightly less rounded corners */
+  }
+
+  .app-title {
+    font-size: 1.8em; /* Smaller title */
+    margin-bottom: 20px;
+  }
+
+  .convert-button {
+    padding: 12px 20px; /* Smaller button padding */
+    font-size: 1em;
+  }
+
+  .contact-info {
+    margin-top: 30px;
+    padding-top: 15px;
+    font-size: 0.85em;
+  }
+}
+
+/* For screens smaller than 480px (smaller mobile devices) */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .app-container {
+    padding: 15px;
+  }
+
+  .app-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+
+  .panel-title {
+    font-size: 1.2em;
+  }
+}

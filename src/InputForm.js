@@ -1,6 +1,7 @@
-// src/InputForm.js
+// src/InputForm.js (Reverted to original HTML structure without inputs-wrapper)
+
 import React from "react";
-import "./InputForm.css"; // Create this CSS file
+import "./InputForm.css";
 
 function InputForm({
   lengthFeet,
@@ -13,8 +14,8 @@ function InputForm({
   setWidthInches,
 }) {
   const handleInputChange = (setter) => (e) => {
-    // Allow empty string or numbers only
     const value = e.target.value;
+    // Allows empty string, or numbers (integers or decimals)
     if (value === "" || /^\d*\.?\d*$/.test(value)) {
       setter(value);
     }
@@ -23,6 +24,7 @@ function InputForm({
   return (
     <div className="input-panel">
       <h2 className="panel-title">Dimensions Input</h2>
+      {/* Length Input Group - This will be on its own row by default */}
       <div className="input-group">
         <label>Length:</label>
         <div className="input-fields">
@@ -44,6 +46,7 @@ function InputForm({
           />
         </div>
       </div>
+      {/* Width Input Group - This will be on its own row by default */}
       <div className="input-group">
         <label>Width:</label>
         <div className="input-fields">

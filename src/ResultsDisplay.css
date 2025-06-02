@@ -10,17 +10,16 @@
 
 .result-label {
   font-family: "Georgia", serif;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
   margin-bottom: 8px;
   line-height: 1.4;
 }
 
-/* NEW STYLES FOR TWO COLUMNS */
 .vastu-factors-comparison {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Creates two equal columns */
-  gap: 20px; /* Space between the columns */
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
   margin-top: 20px;
   padding-top: 15px;
   border-top: 1px dashed #e0e0e0;
@@ -34,9 +33,9 @@
 }
 
 .column-title {
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: 600;
-  color: #4682b4; /* Steel Blue */
+  color: #4682b4;
   margin-bottom: 10px;
   text-align: center;
   border-bottom: 1px solid #e0e0e0;
@@ -45,14 +44,14 @@
 
 .vastu-factor-label {
   font-family: "Georgia", serif;
-  font-size: 1em;
+  font-size: 1.1em;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .overall-status-label {
   font-family: "Georgia", serif;
-  font-size: 1.1em;
+  font-size: 1.2em;
   font-weight: bold;
   margin-top: 25px;
   text-align: center;
@@ -65,4 +64,37 @@
   color: #888;
   font-style: italic;
   margin-top: 20px;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+@media (max-width: 768px) {
+  .results-panel {
+    min-height: unset; /* Remove fixed height for mobile */
+    padding: 15px;
+  }
+
+  .vastu-factors-comparison {
+    grid-template-columns: 1fr; /* Stack columns vertically */
+    gap: 15px; /* Adjust gap */
+  }
+
+  .column-title {
+    font-size: 1em; /* Smaller column titles */
+  }
+
+  .vastu-factor-label {
+    font-size: 1em; /* Smaller factor labels */
+  }
+
+  .overall-status-label {
+    font-size: 1.1em; /* Smaller overall status */
+  }
+}
+
+@media (max-width: 480px) {
+  .result-label,
+  .vastu-factor-label {
+    font-size: 0.95em; /* Even smaller font for tiny screens */
+  }
 }
