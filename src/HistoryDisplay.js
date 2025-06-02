@@ -14,36 +14,67 @@ function HistoryDisplay({ history, historyRef }) {
     }
 
     if (!historyRef.current) {
-      alert("Error: History content not found for PDF generation.");
+      alert(
+        "Error: History content not found for PDF generation. Please ensure history is visible."
+      );
       return;
     }
 
+    // --- FIX STARTS HERE ---
+    // Declare historyElement at the top of the function scope
+    const historyElement = historyRef.current;
+    const originalStyles = historyElement.style.cssText; // Now historyElement is defined here
+    // --- FIX ENDS HERE ---
+
+    // Temporarily adjust styles to ensure full content is rendered for html2canvas
+    // Crucial: remove max-height and overflow to get full scrollable content
+    historyElement.style.maxWidth = "initial";
+    historyElement.style.overflow = "visible";
+    historyElement.style.height = "auto"; // Ensure height is not fixed
+    historyElement.style.minHeight = "auto";
+    historyElement.style.position = "relative"; // Sometimes helps positioning for html2canvas
+
     try {
-      const canvas = await html2canvas(historyRef.current, { scale: 2 });
+      const canvas = await html2canvas(historyElement, {
+        scale: 2, // Higher scale for better resolution
+        useCORS: true, // Important if you have external images/fonts
+        logging: true, // Turn logging ON for debugging html2canvas issues
+        width: historyElement.scrollWidth,
+        height: historyElement.scrollHeight,
+      });
+
       const imgData = canvas.toDataURL("image/png");
 
       const pdf = new jsPDF("p", "mm", "a4");
-      const imgWidth = 210;
-      const pageHeight = 297;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculated image height in mm
 
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+      let currentPage = 0;
+      let currentImgY = 0; // The Y position on the original large image to start from
 
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
+      // Add the first page
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight); // Start at (0,0) for the first page
+
+      // Loop to add subsequent pages
+      // Loop while there is more content to add to a new page
+      while (currentImgY + pageHeight < imgHeight) {
+        currentImgY += pageHeight; // Move down by one page height in the source image
         pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
+        // Add the image again, but offset its Y position to effectively "scroll" the image up
+        pdf.addImage(imgData, "PNG", 0, -currentImgY, imgWidth, imgHeight);
       }
 
       pdf.save("EkaDasaProndam_History.pdf");
       alert("History successfully downloaded as PDF!");
     } catch (error) {
       console.error("Error generating PDF:", error);
-      alert("Error generating PDF. Please try again.");
+      alert(
+        "Error generating PDF. Please try again. Check console for details."
+      );
+    } finally {
+      // Now historyElement is correctly in scope here
+      historyElement.style.cssText = originalStyles;
     }
   };
 
@@ -73,7 +104,6 @@ function HistoryDisplay({ history, historyRef }) {
                   <p>
                     <strong>--- Conversion Entry ---</strong>
                   </p>
-                  {/* Defensive checks added here */}
                   <p>
                     Length: {entry.lengthFeet?.toFixed(2) || "0.00"} ft,{" "}
                     {entry.lengthInches?.toFixed(2) || "0.00"} in (Total{" "}
@@ -99,35 +129,27 @@ function HistoryDisplay({ history, historyRef }) {
                       <p>
                         <strong>Based on Wadu Riyan:</strong>
                       </p>
-                      {(entry.vastuResultsWaduRiyan || []).map(
-                        (
-                          factor // Check if array exists
-                        ) => (
-                          <p
-                            key={`${entry.id}-wadu-${factor.name}`}
-                            style={{ color: factor.color }}
-                          >
-                            &nbsp;&nbsp;{factor.name}: {factor.balance}
-                          </p>
-                        )
-                      )}
+                      {(entry.vastuResultsWaduRiyan || []).map((factor) => (
+                        <p
+                          key={`${entry.id}-wadu-${factor.name}`}
+                          style={{ color: factor.color }}
+                        >
+                          &nbsp;&nbsp;{factor.name}: {factor.balance}
+                        </p>
+                      ))}
                     </div>
                     <div className="history-vastu-column">
                       <p>
                         <strong>Based on Sq Inches:</strong>
                       </p>
-                      {(entry.vastuResultsSquareInches || []).map(
-                        (
-                          factor // Check if array exists
-                        ) => (
-                          <p
-                            key={`${entry.id}-sqin-${factor.name}`}
-                            style={{ color: factor.color }}
-                          >
-                            &nbsp;&nbsp;{factor.name}: {factor.balance}
-                          </p>
-                        )
-                      )}
+                      {(entry.vastuResultsSquareInches || []).map((factor) => (
+                        <p
+                          key={`${entry.id}-sqin-${factor.name}`}
+                          style={{ color: factor.color }}
+                        >
+                          &nbsp;&nbsp;{factor.name}: {factor.balance}
+                        </p>
+                      ))}
                     </div>
                   </div>
                   <p style={{ color: entry.overallStatus?.color || "black" }}>
